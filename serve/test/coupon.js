@@ -56,7 +56,7 @@ for (let i = 1; i < 20; i++) {
     detail: Mock.Random.csentence(10, 5),
     time: new Date(),
     logo: Mock.Random.pick(images),
-    userId: "oBTIG7pxrPFRYyU7AZC82jweyFLI",
+    userId: "123456789",
   };
   coupons.push(coupon);
 }

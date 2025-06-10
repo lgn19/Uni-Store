@@ -12,7 +12,7 @@ for (let i = 1; i < 20; i++) {
     adressTittle: Mock.Random.csentence(6, 10),
     adressDetail: Mock.Random.csentence(10, 12),
     isDefault: false,
-    userId: "oBTIG7pxrPFRYyU7AZC82jweyFLI",
+    userId: "123456789",
   };
   adresses.push(adress);
 }
@@ -20,8 +20,8 @@ for (let i = 1; i < 20; i++) {
 async function init() {
   try {
     // 清空 product 表
-    await prisma.adress.deleteMany();
-    console.log("已清空 coupon 表");
+    // await prisma.adress.deleteMany();
+    // console.log("已清空 coupon 表");
 
     // 插入新数据
     await prisma.adress.createMany({
