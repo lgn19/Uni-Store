@@ -1,0 +1,105 @@
+{
+	"pages": [
+		{
+			"path": "pages/main/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},		{
+			"path": "pages/search/index",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+				{
+			"path": "pages/classes/index",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		},
+				{
+			"path": "pages/shoppingCar/index",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+				{
+			"path": "pages/personCenter/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},{
+			"path": "pages/personCenter/adress",
+			"style": {
+				"navigationBarTitleText": "我的地址"
+			}
+		},{
+			"path": "pages/personCenter/editAdress",
+			"style": {
+				"navigationBarTitleText": "编辑地址"
+			}
+		},
+		{
+			"path": "pages/personCenter/coupon",
+			"style": {
+				"navigationBarTitleText": "优惠卷"
+			}
+		},
+				{
+			"path": "pages/promotion/index",
+			"style": {
+				"navigationBarTitleText": "限时促销"
+			}
+		},
+				{
+			"path": "pages/product/index",
+			"style": {
+				"navigationBarTitleText": "商品详情"
+			}
+		},
+				{
+			"path": "pages/pay/index",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		}
+
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle":"custom"
+
+	},
+		"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+	        "^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"tabBar": {
+	"color": "#7A7E83",
+	"selectedColor": "#3cc51f",
+	"borderStyle": "black",
+	"backgroundColor": "#ffffff",
+
+	"list": [{
+		"pagePath": "pages/main/index",
+		"text": "首页"
+	}, {
+		"pagePath": "pages/classes/index",
+		"text": "分类"
+	}, {
+		"pagePath": "pages/shoppingCar/index",
+		"text": "购物车"
+	}, {
+		"pagePath": "pages/personCenter/index",
+		"text": "我的"
+	}]
+}
+}
+	

@@ -1,0 +1,184 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Adress {
+  id           Int      @id @default(autoincrement())
+  createdTime  DateTime @default(now())
+  updatedTime  DateTime @updatedAt
+  name         String
+  phone        String
+  adressTittle String
+  adressDetail String
+  isDefault    Boolean  @default(false)
+  User         User?    @relation(fields: [userId], references: [id])
+  userId       String?
+  Pay          Pay[]
+}
+
+model Coupon {
+  id          Int       @id @default(autoincrement())
+  createdTime DateTime  @default(now())
+  updatedTime DateTime  @updatedAt
+  classes     String
+  subClasses  String
+  enableId    Product[]
+  count       Float
+  title       String
+  detail      String
+  time        DateTime
+  logo        String
+  User        User?     @relation(fields: [userId], references: [id])
+  userId      String?
+  Pay         Pay?      @relation(fields: [payId], references: [id])
+  payId       Int?
+}
+
+// 支付记录模型
+model Pay {
+  id              Int       @id @default(autoincrement())
+  createdTime     DateTime  @default(now())
+  updatedTime     DateTime  @updatedAt
+  config          String
+  num             Int
+  coupon          Coupon[]
+  product         Product   @relation(fields: [productId], references: [id])
+  User            User?     @relation(fields: [userId], references: [id])
+  userId          String?
+  totalAmount     Float // 订单总金额
+  actualAmount    Float // 实际支付金额（含优惠）
+  discountAmount  Float // 优惠金额
+  paymentMethod   String // 支付方式
+  paymentTime     DateTime? // 支付时间
+  adress          Adress    @relation(fields: [adressId], references: [id])
+  adressId        Int
+  orderStatus     String // 订单状态 待付款、待发货、待收货、已完成、已取消等
+  trackingNumber  String? // 物流单号
+  trackingCompany String? // 物流公司
+
+  // 退款信息
+  refundAmount    Float? // 退款金额
+  refundReason    String? // 退款原因
+  refundStatus    String? // 退款状态  申请中、处理中、已完成、已拒绝
+  refundTime      DateTime? // 退款时间
+  reasonForReject String? // 拒绝退款的原因
+  productId       Int
+}
+
+model Goods {
+  id          Int      @id @default(autoincrement())
+  createdTime DateTime @default(now())
+  updatedTime DateTime @updatedAt
+  product     Product  @relation(fields: [productId], references: [id])
+  config      String
+  num         Int
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String?
+  productId   Int
+}
+
+model Love {
+  id          Int      @id @default(autoincrement())
+  createdTime DateTime @default(now())
+  updatedTime DateTime @updatedAt
+  product     Product  @relation(fields: [productId], references: [id])
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String?
+  productId   Int
+}
+
+model Product {
+  id                Int      @id @default(autoincrement())
+  createdTime       DateTime @default(now())
+  updatedTime       DateTime @updatedAt
+  title             String
+  price             Float
+  originalPrice     Float?
+  star              Float //0-5
+  tags              String //  无理由退货 人人都说好 超1w人购买 促销 ....任意取名字1-6个
+  images            String //数组，用json保存
+  configs           String //json
+  priceMap          String //json
+  originalPriceMap  String //json
+  enableDiscountMap String //json
+  storeMap          String //json
+  comments          String //json数组
+  otherComment      String //json数组
+  classes           String //json
+  subClasses        String //json
+  store             Int
+  buyNum            Int //广西  广西南宁  广西南宁武鸣区 湖北 湖北武汉 范围自定义
+  place             String
+  label             String // 热销 新品 折扣三者其一
+  detail            String
+  Pay               Pay[]
+  payId             Int?
+  Coupon            Coupon?  @relation(fields: [couponId], references: [id])
+  couponId          Int?
+  User              User?    @relation(fields: [userId], references: [id])
+  userId            String?
+  Goods             Goods[]
+  Love              Love[]
+}
+
+model User {
+  id       String  @id
+  nickname String? // 用户昵称
+  avatar   String? // 用户头像URL
+
+  // 关联的手机号（可选）
+  phone         String? @unique
+  phoneVerified Boolean @default(false) // 手机号是否已验证
+
+  // 关联的微信信息（可选）
+  wechatOpenId   String? @unique
+  wechatUnionId  String? @unique
+  wechatVerified Boolean @default(false) // 微信是否已验证
+
+  // 账户状态
+  isActive Boolean @default(true) // 账户是否激活
+  role     String  @default("user") // 用户角色
+
+  // 安全相关
+  password    String? // 仅当需要密码登录时使用
+  lastLoginAt DateTime? // 最后登录时间
+
+  // 时间戳
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Session   Session[]
+
+  // 我的优惠卷
+  coupon Coupon[]
+
+  // 订单
+  pay Pay[]
+
+  // 地址
+  adress  Adress[]
+  Love    Love[]
+  Goods   Goods[]
+  Product Product[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String // 关联的用户ID
+  token     String   @unique // 会话令牌
+  device    String? // 设备信息
+  ip        String? // IP地址
+  expiresAt DateTime // 过期时间
+
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
